@@ -133,7 +133,7 @@ class NF_Process_Paypal
          CURLOPT_VERBOSE => 1,
          CURLOPT_SSL_VERIFYPEER => true,
          CURLOPT_SSL_VERIFYHOST => 2,
-         CURLOPT_CAINFO => NINJA_FORMS_PAYPAL_EXPRESS_DIR.'/includes/cacert.pem', //CA cert file
+         CURLOPT_CAINFO => NINJA_FORMS_paypal_subscriptions_DIR.'/includes/cacert.pem', //CA cert file
          CURLOPT_RETURNTRANSFER => 1,
          CURLOPT_POST => 1,
          CURLOPT_POSTFIELDS => $request,

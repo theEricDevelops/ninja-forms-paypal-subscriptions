@@ -80,7 +80,7 @@ class NF_Paypal_Response
     $plugin_settings = get_option( 'ninja_forms_paypal' );
     // Complete the transaction with PayPal
     $response = $this->do_checkout();
-    if ( ( isset ( $plugin_settings['debug'] ) and $plugin_settings['debug'] == 1 ) or ( ! isset ( $plugin_settings['debug'] ) and NINJA_FORMS_PAYPAL_EXPRESS_DEBUG ) ) {
+    if ( ( isset ( $plugin_settings['debug'] ) and $plugin_settings['debug'] == 1 ) or ( ! isset ( $plugin_settings['debug'] ) and NINJA_FORMS_paypal_subscriptions_DEBUG ) ) {
       
       echo "<pre>";
       var_dump( $response );
@@ -119,7 +119,7 @@ class NF_Paypal_Response
 
     } else {
       // We need to add an error message to our $ninja_forms_processing.
-      $ninja_forms_processing->add_error( 'paypal-fail', __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-express' ) );
+      $ninja_forms_processing->add_error( 'paypal-fail', __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-subscriptions' ) );
       if ( isset ( $response['L_SHORTMESSAGE0'] ) ) {
         $ninja_forms_processing->add_error( 'paypal-short-error', $response['L_SHORTMESSAGE0'] );
       }
@@ -170,7 +170,7 @@ class NF_Paypal_Response
     // Remove all our success messages.
     $ninja_forms_processing->remove_all_success_msgs();
     // Add our error message.
-    $ninja_forms_processing->add_error( 'paypal-fail', __( 'PayPal authorization was cancelled. Please try again.', 'ninja-forms-paypal-express' ) );
+    $ninja_forms_processing->add_error( 'paypal-fail', __( 'PayPal authorization was cancelled. Please try again.', 'ninja-forms-paypal-subscriptions' ) );
     // Set processing_complete to 0 so that the form on the other end doesn't think that this was a successful submission.
     $ninja_forms_processing->update_form_setting( 'processing_complete', 0 );
     
@@ -245,8 +245,8 @@ class NF_Paypal_Response
 } // Class
 
 
-function ninja_forms_paypal_express_response(){
+function ninja_forms_paypal_subscriptions_response(){
   $NF_Paypal_Response = new NF_Paypal_Response();
 }
 
-add_action( 'init', 'ninja_forms_paypal_express_response', 1001 );
+add_action( 'init', 'ninja_forms_paypal_subscriptions_response', 1001 );

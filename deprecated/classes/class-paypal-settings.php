@@ -24,7 +24,7 @@ class NF_Paypal_Settings
 
   public function load_paypal_settings() {
     // Add a submenu to Ninja Forms for PayPal settings.
-    $paypal = add_submenu_page( 'ninja-forms', __( 'PayPal Settings', 'ninja-forms-paypal-express' ), __( 'PayPal', 'ninja-forms-paypal-express' ), 'administrator', 'ninja-forms-paypal', 'ninja_forms_admin' );
+    $paypal = add_submenu_page( 'ninja-forms', __( 'PayPal Settings', 'ninja-forms-paypal-subscriptions' ), __( 'PayPal', 'ninja-forms-paypal-subscriptions' ), 'administrator', 'ninja-forms-paypal', 'ninja_forms_admin' );
 
     // Enqueue default Ninja Forms admin styles and JS.
     add_action('admin_print_styles-' . $paypal, 'ninja_forms_admin_css');
@@ -32,7 +32,7 @@ class NF_Paypal_Settings
 
     // Register a tab to our new page for PayPal settings.
     $args = array(
-      'name' => __( 'PayPal Settings', 'ninja-forms-paypal-express' ),
+      'name' => __( 'PayPal Settings', 'ninja-forms-paypal-subscriptions' ),
       'page' => 'ninja-forms-paypal',
       'display_function' => '',
       'save_function' => array( $this, 'save_paypal_settings' ),
@@ -94,35 +94,35 @@ class NF_Paypal_Settings
     }
 
     // Register our Genearl Settings metabox.
-    $paypal_currencies = apply_filters( 'nf_paypal_express_currencies', array(
-      array( 'name' => __( 'Australian Dollars', 'ninja-forms-paypal-express' ),   'value' => 'AUD' ),
-      array( 'name' => __( 'Canadian Dollars', 'ninja-forms-paypal-express' ),     'value' => 'CAD' ),
-      array( 'name' => __( 'Czech Koruna', 'ninja-forms-paypal-express' ),         'value' => 'CZK' ),
-      array( 'name' => __( 'Danish Krone', 'ninja-forms-paypal-express' ),         'value' => 'DKK' ),
-      array( 'name' => __( 'Euros', 'ninja-forms-paypal-express' ),                'value' => 'EUR' ),
-      array( 'name' => __( 'Hong Kong Dollars', 'ninja-forms-paypal-express' ),    'value' => 'HKD' ),
-      array( 'name' => __( 'Hungarian Forints', 'ninja-forms-paypal-express' ),    'value' => 'HUF' ),
-      array( 'name' => __( 'Israeli New Sheqels', 'ninja-forms-paypal-express' ),  'value' => 'ILS' ),
-      array( 'name' => __( 'Japanese Yen', 'ninja-forms-paypal-express' ),         'value' => 'JPY' ),
-      array( 'name' => __( 'Mexican Pesos', 'ninja-forms-paypal-express' ),        'value' => 'MXN' ),
-      array( 'name' => __( 'Norwegian Krone', 'ninja-forms-paypal-express' ),      'value' => 'NOK' ),
-      array( 'name' => __( 'New Zealand Dollars', 'ninja-forms-paypal-express' ),  'value' => 'NZD' ),
-      array( 'name' => __( 'Philippine Pesos', 'ninja-forms-paypal-express' ),     'value' => 'PHP' ),
-      array( 'name' => __( 'Polish Zloty', 'ninja-forms-paypal-express' ),         'value' => 'PLN' ),
-      array( 'name' => __( 'Pound Sterling', 'ninja-forms-paypal-express' ),       'value' => 'GBP' ),
-      array( 'name' => __( 'Singapore Dollars', 'ninja-forms-paypal-express' ),    'value' => 'SGD' ),
-      array( 'name' => __( 'Swedish Krona', 'ninja-forms-paypal-express' ),        'value' => 'SEK' ),
-      array( 'name' => __( 'Swiss Franc', 'ninja-forms-paypal-express' ),          'value' => 'CHF' ),
-      array( 'name' => __( 'Taiwan New Dollars', 'ninja-forms-paypal-express' ),   'value' => 'TWD' ),
-      array( 'name' => __( 'Thai Baht', 'ninja-forms-paypal-express' ),            'value' => 'THB' ),
-      array( 'name' => __( 'U.S. Dollars', 'ninja-forms-paypal-express' ),         'value' => 'USD' ),
+    $paypal_currencies = apply_filters( 'nf_paypal_subscriptions_currencies', array(
+      array( 'name' => __( 'Australian Dollars', 'ninja-forms-paypal-subscriptions' ),   'value' => 'AUD' ),
+      array( 'name' => __( 'Canadian Dollars', 'ninja-forms-paypal-subscriptions' ),     'value' => 'CAD' ),
+      array( 'name' => __( 'Czech Koruna', 'ninja-forms-paypal-subscriptions' ),         'value' => 'CZK' ),
+      array( 'name' => __( 'Danish Krone', 'ninja-forms-paypal-subscriptions' ),         'value' => 'DKK' ),
+      array( 'name' => __( 'Euros', 'ninja-forms-paypal-subscriptions' ),                'value' => 'EUR' ),
+      array( 'name' => __( 'Hong Kong Dollars', 'ninja-forms-paypal-subscriptions' ),    'value' => 'HKD' ),
+      array( 'name' => __( 'Hungarian Forints', 'ninja-forms-paypal-subscriptions' ),    'value' => 'HUF' ),
+      array( 'name' => __( 'Israeli New Sheqels', 'ninja-forms-paypal-subscriptions' ),  'value' => 'ILS' ),
+      array( 'name' => __( 'Japanese Yen', 'ninja-forms-paypal-subscriptions' ),         'value' => 'JPY' ),
+      array( 'name' => __( 'Mexican Pesos', 'ninja-forms-paypal-subscriptions' ),        'value' => 'MXN' ),
+      array( 'name' => __( 'Norwegian Krone', 'ninja-forms-paypal-subscriptions' ),      'value' => 'NOK' ),
+      array( 'name' => __( 'New Zealand Dollars', 'ninja-forms-paypal-subscriptions' ),  'value' => 'NZD' ),
+      array( 'name' => __( 'Philippine Pesos', 'ninja-forms-paypal-subscriptions' ),     'value' => 'PHP' ),
+      array( 'name' => __( 'Polish Zloty', 'ninja-forms-paypal-subscriptions' ),         'value' => 'PLN' ),
+      array( 'name' => __( 'Pound Sterling', 'ninja-forms-paypal-subscriptions' ),       'value' => 'GBP' ),
+      array( 'name' => __( 'Singapore Dollars', 'ninja-forms-paypal-subscriptions' ),    'value' => 'SGD' ),
+      array( 'name' => __( 'Swedish Krona', 'ninja-forms-paypal-subscriptions' ),        'value' => 'SEK' ),
+      array( 'name' => __( 'Swiss Franc', 'ninja-forms-paypal-subscriptions' ),          'value' => 'CHF' ),
+      array( 'name' => __( 'Taiwan New Dollars', 'ninja-forms-paypal-subscriptions' ),   'value' => 'TWD' ),
+      array( 'name' => __( 'Thai Baht', 'ninja-forms-paypal-subscriptions' ),            'value' => 'THB' ),
+      array( 'name' => __( 'U.S. Dollars', 'ninja-forms-paypal-subscriptions' ),         'value' => 'USD' ),
     ) );
 
     $args = array(
       'page' => 'ninja-forms-paypal',
       'tab' => 'general_settings',
       'slug' => 'general',
-      'title' => __( 'Basic Settings', 'ninja-forms-paypal-express' ),
+      'title' => __( 'Basic Settings', 'ninja-forms-paypal-subscriptions' ),
       'display_function' => '',
       'state' => 'closed',
       'settings' => array(    
@@ -130,7 +130,7 @@ class NF_Paypal_Settings
           'name' => 'currency',
           'type' => 'select',
           'options' => $paypal_currencies,
-          'label' => __( 'Transaction Currency', 'ninja-forms-paypal-express'),
+          'label' => __( 'Transaction Currency', 'ninja-forms-paypal-subscriptions'),
           'default_value' => $selected_currency,
         ),
       ),
@@ -144,26 +144,26 @@ class NF_Paypal_Settings
       'page' => 'ninja-forms-paypal',
       'tab' => 'general_settings',
       'slug' => 'live_credentials',
-      'title' => __( 'Live API Credentials', 'ninja-forms-paypal-express' ),
+      'title' => __( 'Live API Credentials', 'ninja-forms-paypal-subscriptions' ),
       'display_function' => '',
       'state' => 'open',
       'settings' => array(
         array(
           'name' => 'live_api_user',
           'type' => 'text',
-          'label' => __( 'Live API Username', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Live API Username', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $live_api_user,
         ),
         array(
           'name' => 'live_api_pwd',
           'type' => 'text',
-          'label' => __( 'Live API Password', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Live API Password', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $live_api_pwd,
         ),        
         array(
           'name' => 'live_api_signature',
           'type' => 'text',
-          'label' => __( 'Live API Signature', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Live API Signature', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $live_api_signature,
         ),
       ),
@@ -176,32 +176,32 @@ class NF_Paypal_Settings
       'page' => 'ninja-forms-paypal',
       'tab' => 'general_settings',
       'slug' => 'test_credentials',
-      'title' => __( 'Sandbox (Test Mode) API Credentials', 'ninja-forms-paypal-express' ),
+      'title' => __( 'Sandbox (Test Mode) API Credentials', 'ninja-forms-paypal-subscriptions' ),
       'display_function' => '',
       'state' => 'open',
       'settings' => array(
         array(
           'name' => 'debug',
           'type' => 'checkbox',
-          'label' => __( 'Run in debug mode', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Run in debug mode', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $debug,
         ),
         array(
           'name' => 'test_api_user',
           'type' => 'text',
-          'label' => __( 'Sandbox API Username', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Sandbox API Username', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $test_api_user,
         ),
         array(
           'name' => 'test_api_pwd',
           'type' => 'text',
-          'label' => __( 'Sandbox API Password', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Sandbox API Password', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $test_api_pwd,
         ),        
         array(
           'name' => 'test_api_signature',
           'type' => 'text',
-          'label' => __( 'Sandbox API Signature', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Sandbox API Signature', 'ninja-forms-paypal-subscriptions' ),
           'default_value' => $test_api_signature,
         ),
       ),
@@ -221,7 +221,7 @@ class NF_Paypal_Settings
     }
     update_option( 'ninja_forms_paypal', $plugin_settings );
 
-    return __( 'Settings Updated', 'ninja-forms-paypal-express' );
+    return __( 'Settings Updated', 'ninja-forms-paypal-subscriptions' );
   }
 
   public function load_paypal_form_settings() {
@@ -230,37 +230,37 @@ class NF_Paypal_Settings
       'page' => 'ninja-forms',
       'tab' => 'form_settings',
       'slug' => 'paypal',
-      'title' => __( 'PayPal Settings', 'ninja-forms-paypal-express' ),
+      'title' => __( 'PayPal Settings', 'ninja-forms-paypal-subscriptions' ),
       'display_function' => '',
       'state' => 'closed',
       'settings' => array(
         array(
-          'name' => 'paypal_express',
+          'name' => 'paypal_subscriptions',
           'type' => 'checkbox',
-          'label' => __( 'Use PayPal Express', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Use PayPal Subscriptions', 'ninja-forms-paypal-subscriptions' ),
         ),
         array(
           'name' => 'paypal_test_mode',
           'type' => 'checkbox',
-          'label' => __( 'Run in sandbox (test) mode', 'ninja-forms-paypal-express'),
+          'label' => __( 'Run in sandbox (test) mode', 'ninja-forms-paypal-subscriptions'),
         ),
         array(
           'name' => 'paypal_product_name',
           'type' => 'text',
-          'label' => __( 'Default Product Name', 'ninja-forms-paypal-express' ),
-          'desc' => __( 'If you do not plan on adding any calculation fields to your form, enter a product name here.', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Default Product Name', 'ninja-forms-paypal-subscriptions' ),
+          'desc' => __( 'If you do not plan on adding any calculation fields to your form, enter a product name here.', 'ninja-forms-paypal-subscriptions' ),
         ),        
         array(
           'name' => 'paypal_product_desc',
           'type' => 'text',
-          'label' => __( 'Default Product Description', 'ninja-forms-paypal-express' ),
-          'desc' => __( 'If you do not plan on adding any calculation fields to your form, enter a product description here.', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Default Product Description', 'ninja-forms-paypal-subscriptions' ),
+          'desc' => __( 'If you do not plan on adding any calculation fields to your form, enter a product description here.', 'ninja-forms-paypal-subscriptions' ),
         ),
         array(
           'name' => 'paypal_default_total',
           'type' => 'text',
-          'label' => __( 'Default Total', 'ninja-forms-paypal-express' ),
-          'desc' => __( 'If you do not want to use a Total Field in your form, you can use this setting. Please leave out any currency markers.', 'ninja-forms-paypal-express' ),
+          'label' => __( 'Default Total', 'ninja-forms-paypal-subscriptions' ),
+          'desc' => __( 'If you do not want to use a Total Field in your form, you can use this setting. Please leave out any currency markers.', 'ninja-forms-paypal-subscriptions' ),
         ),
       ),
     );
@@ -290,7 +290,7 @@ class NF_Paypal_Settings
         <h4>PayPal Settings</h4>
         <?php
 
-        ninja_forms_edit_field_el_output( $field_id, 'checkbox', __( 'Consider this an "item" for PayPal purposes. (If you are setting up a quantity field, uncheck this box.)', 'ninja-forms-paypal-express' ), 'paypal_item', $paypal_item, 'wide', '', '' );
+        ninja_forms_edit_field_el_output( $field_id, 'checkbox', __( 'Consider this an "item" for PayPal purposes. (If you are setting up a quantity field, uncheck this box.)', 'ninja-forms-paypal-subscriptions' ), 'paypal_item', $paypal_item, 'wide', '', '' );
         // If we're working with a list, add the checkbox option to use the List Item Label for the PayPal Product Name.
         if ( $field['type'] == '_list' ) {
       
@@ -300,7 +300,7 @@ class NF_Paypal_Settings
             $list_label_product_name = 0;
           }
           
-          ninja_forms_edit_field_el_output( $field_id, 'checkbox', __( 'Use List Label For PayPal Product Name', 'ninja-forms-paypal-express' ), 'list_label_product_name', $list_label_product_name, 'wide', '', '' );
+          ninja_forms_edit_field_el_output( $field_id, 'checkbox', __( 'Use List Label For PayPal Product Name', 'ninja-forms-paypal-subscriptions' ), 'list_label_product_name', $list_label_product_name, 'wide', '', '' );
         }
 
           ?>

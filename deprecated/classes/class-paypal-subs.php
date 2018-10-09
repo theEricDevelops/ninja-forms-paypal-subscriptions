@@ -41,12 +41,12 @@ class NF_Paypal_Subs
 			return $cols;
 
 		// Bail if we aren't working with a PayPal form.
-		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_express' ) != 1 )
+		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_subscriptions' ) != 1 )
 			return $cols;
 
 		$cols = array_slice( $cols, 0, count( $cols ) - 1, true ) +
-		    array( 'paypal_status' => __( 'PayPal Status', 'ninja-forms-paypal-express' ) ) +
-		    array( 'paypal_transaction_id' => __( 'PayPal Transaction ID', 'ninja-forms-paypal-express' ) ) +
+		    array( 'paypal_status' => __( 'PayPal Status', 'ninja-forms-paypal-subscriptions' ) ) +
+		    array( 'paypal_transaction_id' => __( 'PayPal Transaction ID', 'ninja-forms-paypal-subscriptions' ) ) +
 		    array_slice( $cols, count( $cols ) - 1, count( $cols ) - 1, true) ;
 
 		return $cols;
@@ -80,9 +80,9 @@ class NF_Paypal_Subs
 
 	function filter_csv_labels( $label_array, $sub_id_array ) {
 		$form_id = Ninja_Forms()->sub( $sub_id_array[0] )->form_id;
-		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_express' ) == 1 ) {
-			$label_array[0]['_paypal_status'] = __( 'PayPal Status', 'ninja-forms-paypal-express' );
-			$label_array[0]['_paypal_transaction_id'] = __( 'Transaction ID', 'ninja-forms-paypal-express' );		
+		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_subscriptions' ) == 1 ) {
+			$label_array[0]['_paypal_status'] = __( 'PayPal Status', 'ninja-forms-paypal-subscriptions' );
+			$label_array[0]['_paypal_transaction_id'] = __( 'Transaction ID', 'ninja-forms-paypal-subscriptions' );		
 		}
 
 		return $label_array;	
@@ -99,9 +99,9 @@ class NF_Paypal_Subs
 			return false;
 		
 		$form_id = Ninja_Forms()->sub( $post->ID )->form_id;
-		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_express' ) == 1 ) {
+		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_subscriptions' ) == 1 ) {
 			// Add our save field values metabox
-			add_meta_box( 'nf_paypal_info', __( 'PayPal information', 'ninja-forms-paypal-express' ), array( $this, 'paypal_info_metabox' ), 'nf_sub', 'side', 'default');		
+			add_meta_box( 'nf_paypal_info', __( 'PayPal information', 'ninja-forms-paypal-subscriptions' ), array( $this, 'paypal_info_metabox' ), 'nf_sub', 'side', 'default');		
 		}
 	}
 
@@ -115,25 +115,25 @@ class NF_Paypal_Subs
 
 	function paypal_info_metabox( $sub ) {
 		$form_id = Ninja_Forms()->sub( $sub->ID )->form_id;
-		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_express' ) == 1 ) {
+		if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_subscriptions' ) == 1 ) {
 			$paypal_status = Ninja_Forms()->sub( $sub->ID )->get_meta( '_paypal_status' );
 			?>
 			<div class="submitbox" id="submitpost">
 				<div id="minor-publishing">
 					<div id="misc-publishing-actions">
 						<div class="misc-pub-section misc-pub-post-status">
-							<label for=""><?php _e( 'Transaction ID', 'ninja-forms-paypal-express' );?>:</label>
+							<label for=""><?php _e( 'Transaction ID', 'ninja-forms-paypal-subscriptions' );?>:</label>
 							<span id=""><strong><?php echo Ninja_Forms()->sub( $sub->ID )->get_meta( '_paypal_transaction_id' ); ?></strong></span>
 						</div>
 						<div class="misc-pub-section misc-pub-post-status">
-							<label for=""><?php _e( 'Status', 'ninja-forms-paypal-express' ); ?></label>
+							<label for=""><?php _e( 'Status', 'ninja-forms-paypal-subscriptions' ); ?></label>
 							<span id="">
 								<select name="_paypal_status" id="">
-									<option value="pending" <?php selected( $paypal_status, 'pending' );?>><?php _e( 'Pending', 'ninja-forms-paypal-express' );?></option>
-									<option value="cancelled" <?php selected( $paypal_status, 'cancelled' );?>><?php _e( 'Cancelled', 'ninja-forms-paypal-express' );?></option>
-									<option value="complete" <?php selected( $paypal_status, 'complete' );?>><?php _e( 'Complete', 'ninja-forms-paypal-express' );?></option>
-									<option value="error" <?php selected( $paypal_status, 'error' );?>><?php _e( 'Error', 'ninja-forms-paypal-express' );?></option>
-									<option value="refund" <?php selected( $paypal_status, 'refund' );?>><?php _e( 'Refund', 'ninja-forms-paypal-express' );?></option>
+									<option value="pending" <?php selected( $paypal_status, 'pending' );?>><?php _e( 'Pending', 'ninja-forms-paypal-subscriptions' );?></option>
+									<option value="cancelled" <?php selected( $paypal_status, 'cancelled' );?>><?php _e( 'Cancelled', 'ninja-forms-paypal-subscriptions' );?></option>
+									<option value="complete" <?php selected( $paypal_status, 'complete' );?>><?php _e( 'Complete', 'ninja-forms-paypal-subscriptions' );?></option>
+									<option value="error" <?php selected( $paypal_status, 'error' );?>><?php _e( 'Error', 'ninja-forms-paypal-subscriptions' );?></option>
+									<option value="refund" <?php selected( $paypal_status, 'refund' );?>><?php _e( 'Refund', 'ninja-forms-paypal-subscriptions' );?></option>
 								</select>
 							</span>
 						</div>
@@ -177,7 +177,7 @@ class NF_Paypal_Subs
 
         // Bail if the form doesn't have save progress enabled
 	    $form_id = Ninja_Forms()->sub( $sub_id )->form_id;
-	    if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_express' ) != 1 )
+	    if ( Ninja_Forms()->form( $form_id )->get_setting( 'paypal_subscriptions' ) != 1 )
 	    	return false;
 
 	    Ninja_Forms()->sub( $sub_id )->update_meta( '_paypal_status', $_POST['_paypal_status'] );
@@ -186,7 +186,7 @@ class NF_Paypal_Subs
 }
 
 // Initiate our sub settings class if we are on the admin.
-function ninja_forms_paypal_express_modify_sub(){
+function ninja_forms_paypal_subscriptions_modify_sub(){
 	if ( is_admin() ) {
 		if ( nf_pe_pre_27() ) {
 			$NF_Paypal_Subs = new NF_Paypal_Subs_Deprecated();
@@ -196,4 +196,4 @@ function ninja_forms_paypal_express_modify_sub(){
 	}	
 }
 
-add_action( 'init', 'ninja_forms_paypal_express_modify_sub', 11 );
+add_action( 'init', 'ninja_forms_paypal_subscriptions_modify_sub', 11 );

@@ -6,12 +6,12 @@
  */
 
 /**
- * Class NF_PayPalExpress_Checkout
+ * Class NF_PayPalSubscriptions_Checkout
  *
  * @since 1.0
  * @updated 3.0
  */
-class NF_PayPalExpress_Checkout
+class NF_PayPalSubscriptions_Checkout
 {
     /**
      * API Version
@@ -164,7 +164,7 @@ class NF_PayPalExpress_Checkout
             CURLOPT_VERBOSE => 1,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CAINFO => NF_PayPalExpress::$dir . 'includes/cacert.pem', //CA cert file
+            CURLOPT_CAINFO => NF_PayPalSubscriptions::$dir . 'includes/cacert.pem', //CA cert file
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => $request,
@@ -244,4 +244,4 @@ class NF_PayPalExpress_Checkout
         );
     }
 
-} // END CLASS NF_PayPalExpress_Checkout
+} // END CLASS NF_PayPalSubscriptions_Checkout

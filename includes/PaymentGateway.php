@@ -3,17 +3,17 @@
 if( ! class_exists( 'NF_Abstracts_PaymentGateway' ) ) return;
 
 /**
- * The PayPal Express payment gateway for the Collect Payment action.
+ * The PayPal Subscriptions payment gateway for the Collect Payment action.
  */
-class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
+class NF_PayPalSubscriptions_PaymentGateway extends NF_Abstracts_PaymentGateway
 {
-    protected $_slug = 'paypal-express';
+    protected $_slug = 'paypal-subscriptions';
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->_name = __( 'PayPal Express', 'ninja-forms-paypal-express' );
+        $this->_name = __( 'PayPal Subscriptions', 'ninja-forms-paypal-subscriptions' );
 
         add_action( 'ninja_forms_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
@@ -34,7 +34,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
             'deps'  => array(
                 'payment_gateways' => $this->_slug
             ),
-            'help' => __( 'Extra information associated with the payment, such as shipping address, email, etc. This will be saved as Transaction Data in your PayPal Account.', 'ninja-forms-paypal-express' ),
+            'help' => __( 'Extra information associated with the payment, such as shipping address, email, etc. This will be saved as Transaction Data in your PayPal Account.', 'ninja-forms-paypal-subscriptions' ),
             'use_merge_tags' => TRUE
         );
         
@@ -47,7 +47,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
             'deps' => array(
                 'payment_gateways' => $this->_slug
             ),
-            'help' => sprintf( __( 'A note from the merchant to the buyer that will be displayed in the PayPal checkout window. Limit %s characters', 'ninja-forms-paypal-express' ), '165' ),
+            'help' => sprintf( __( 'A note from the merchant to the buyer that will be displayed in the PayPal checkout window. Limit %s characters', 'ninja-forms-paypal-subscriptions' ), '165' ),
             'use_merge_tags' => TRUE
         );
 
@@ -60,7 +60,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
             'deps'  => array(
                 'payment_gateways' => $this->_slug
             ),
-            'help' => __( 'Use PayPal Express sandbox credentials to test transaction.', 'ninja-forms-paypal-express' ),
+            'help' => __( 'Use PayPal Subscriptions sandbox credentials to test transaction.', 'ninja-forms-paypal-subscriptions' ),
         );
 
         $this->_settings[ 'ppe_debug' ] = array(
@@ -73,13 +73,13 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
                 'payment_gateways' => $this->_slug,
                 'ppe_sandbox' => 1
             ),
-            'help' => __( 'Displays the response from PayPal. Does NOT complete the transaction.', 'ninja-forms-paypal-express' ),
+            'help' => __( 'Displays the response from PayPal. Does NOT complete the transaction.', 'ninja-forms-paypal-subscriptions' ),
         );
 
         // Check to see if our TLS version is outdated.
         $tls = get_transient( 'nf_ppe_tls_ver' );
         if( $tls && 'no' == $tls ) {
-            $tls_msg = __( 'WARNING: We have detected that your TLS version is below the current standard required by PayPal.', 'ninja-forms-paypal-express' ) . '<br />' . __( 'As a result, this Action will not be processed on Form submission!', 'ninja-forms-paypal-express' ) . '<br />' . __( 'Please contact your host and have them update your environment to support TLS 1.2 and HTTP/1.1.', 'ninja-forms' );
+            $tls_msg = __( 'WARNING: We have detected that your TLS version is below the current standard required by PayPal.', 'ninja-forms-paypal-subscriptions' ) . '<br />' . __( 'As a result, this Action will not be processed on Form submission!', 'ninja-forms-paypal-subscriptions' ) . '<br />' . __( 'Please contact your host and have them update your environment to support TLS 1.2 and HTTP/1.1.', 'ninja-forms' );
             $this->_settings[ 'ppe_error' ] = array(
                 'name' => 'ppe_error',
                 'type' => 'html',
@@ -90,7 +90,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
                     'payment_gateways' => $this->_slug
                 ),
                 'value' => __( '<div class="nf-drawer-error"><span>' . $tls_msg . '</span></div>',
-                                'ninja-forms-paypal-express'),
+                                'ninja-forms-paypal-subscriptions'),
             );
         }
     }
@@ -112,7 +112,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
         //Add check to ensure the payment total isn't null and is greater than zero
         if( $action_settings[ 'payment_total' ] <= 0 || NULL == $action_settings[ 'payment_total' ] ) return $data;
 
-        $api = NF_PayPalExpress()->api( $action_settings[ 'ppe_sandbox' ] );
+        $api = NF_PayPalSubscriptions()->api( $action_settings[ 'ppe_sandbox' ] );
         $payment_total = number_format( $action_settings[ 'payment_total' ], 2, '.', ',' );
 
         // If we've come back from PayPal...
@@ -121,7 +121,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
             // If the response indicates a canceled payment...
             if ( 'cancel' == $data[ 'resume' ][ 'nfpe_checkout' ] ) {
                 // Exit early.
-                $data[ 'errors' ][ 'form' ][ 'paypal_express' ] = __( 'PayPal authorization was cancelled. Please try again.', 'ninja-forms-paypal-express' );
+                $data[ 'errors' ][ 'form' ][ 'paypal_subscriptions' ] = __( 'PayPal authorization was cancelled. Please try again.', 'ninja-forms-paypal-subscriptions' );
                 return $data;
             }
             $currency = $this->get_currency( $data );
@@ -136,38 +136,38 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
                 // If this transaction ID has already been used...
                 if ( ! empty( $result ) ) {
                     // Error the user out.
-                    $data[ 'errors' ][ 'form' ][ 'paypal_express' ] = __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-express' );
+                    $data[ 'errors' ][ 'form' ][ 'paypal_subscriptions' ] = __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-subscriptions' );
 
                     do_action( 'ninja_forms_checkout_failure', $response );
-                    do_action( 'ninja_forms_paypal_express_checkout_failure', $response );
+                    do_action( 'ninja_forms_paypal_subscriptions_checkout_failure', $response );
                 } else {
                     $this->update_submission( $this->get_sub_id($data), array(
                         'paypal_status' => $this->get_status( 'success' ),
                         'paypal_transaction_id' => $response[ 'PAYMENTINFO_0_TRANSACTIONID' ]
                     ));
 
-                    Ninja_Forms()->merge_tags[ 'paypal_express' ]->set_transaction_id( $response[ 'PAYMENTINFO_0_TRANSACTIONID' ] );
+                    Ninja_Forms()->merge_tags[ 'paypal_subscriptions' ]->set_transaction_id( $response[ 'PAYMENTINFO_0_TRANSACTIONID' ] );
 
                     do_action( 'ninja_forms_checkout_success', $response );
-                    do_action( 'ninja_forms_paypal_express_checkout_success', $response );
+                    do_action( 'ninja_forms_paypal_subscriptions_checkout_success', $response );
                 }
             } else {
-                $data[ 'errors' ][ 'form' ][ 'paypal_express' ] = __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-express' );
+                $data[ 'errors' ][ 'form' ][ 'paypal_subscriptions' ] = __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-subscriptions' );
 
                 do_action( 'ninja_forms_checkout_failure', $response );
-                do_action( 'ninja_forms_paypal_express_checkout_failure', $response );
+                do_action( 'ninja_forms_paypal_subscriptions_checkout_failure', $response );
             }
 
-            $data[ 'actions' ][ 'paypal_express' ][ 'ppe_debug' ] = $action_settings[ 'ppe_debug' ];
+            $data[ 'actions' ][ 'paypal_subscriptions' ][ 'ppe_debug' ] = $action_settings[ 'ppe_debug' ];
             if( isset( $action_settings[ 'ppe_debug' ] ) && 1 == $action_settings[ 'ppe_debug' ] ){ // `1` == TRUE
-                $data[ 'actions' ][ 'paypal_express' ][ 'debug' ] = $response;
+                $data[ 'actions' ][ 'paypal_subscriptions' ][ 'debug' ] = $response;
 
                 $debug_message = '<dl>';
                 foreach( $response as $key => $value ){
                     $debug_message .= "<dt>$key</dt><dd>$value</dd>";
                 }
                 $debug_message .= '</dl>';
-                $data[ 'debug' ][ 'form' ][ 'paypal_express' ] = $debug_message;
+                $data[ 'debug' ][ 'form' ][ 'paypal_subscriptions' ] = $debug_message;
             }
             // Hide loading animation.
             $data[ 'actions' ][ 'success_message' ] .= '<style> .nf-ppe-spinner { display: none !important; } </style>';
@@ -183,7 +183,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
 			'INR',
         );
         if ( in_array( $currency, $blacklist ) ) {
-            $data[ 'errors' ][ 'form' ][ 'paypal_express' ] = sprintf( __( 'PayPal does not support the selected currency. For more information on supported currencies, please consult the following list. %s', 'ninja-forms-paypal-express' ), '<a href="https://developer.paypal.com/docs/classic/api/currency_codes/" target="_blank" >https://developer.paypal.com/docs/classic/api/currency_codes/</a>' );
+            $data[ 'errors' ][ 'form' ][ 'paypal_subscriptions' ] = sprintf( __( 'PayPal does not support the selected currency. For more information on supported currencies, please consult the following list. %s', 'ninja-forms-paypal-subscriptions' ), '<a href="https://developer.paypal.com/docs/classic/api/currency_codes/" target="_blank" >https://developer.paypal.com/docs/classic/api/currency_codes/</a>' );
             return $data;
         }
         
@@ -199,12 +199,12 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
             $data[ 'actions' ][ 'redirect' ] = $api->get_checkout_url( $token );
 
             $this->update_submission( $this->get_sub_id( $data ), array(
-                'paypal_status' => __( 'Pending', 'ninja-forms-paypal-express' ),
+                'paypal_status' => __( 'Pending', 'ninja-forms-paypal-subscriptions' ),
                 'paypal_total' => $payment_total
             ) );
 
             ob_start();
-            NF_PayPalExpress::template( 'spinner.html' );
+            NF_PayPalSubscriptions::template( 'spinner.html' );
             $spinner = ob_get_clean();
             if( ! isset( $data['actions']['success_message'] ) ){
                 $data['actions']['success_message'] = $spinner;
@@ -213,7 +213,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
             }
 
         } else {
-            $data[ 'errors' ][ 'form' ][ 'paypal_express' ] = __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-express' );
+            $data[ 'errors' ][ 'form' ][ 'paypal_subscriptions' ] = __( 'PayPal encountered an error in processing your transaction. Please try again.', 'ninja-forms-paypal-subscriptions' );
         }
 
         return $data;
@@ -222,8 +222,8 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
     public function enqueue_scripts( $data )
     {
         // TODO: Check `$data[ 'form_id' ]`
-        wp_enqueue_script('nf-paypal-express-debug', NF_PayPalExpress::$url . 'assets/js/debug.js', array( 'nf-front-end' ) );
-        wp_enqueue_script('nf-paypal-express-response', NF_PayPalExpress::$url . 'assets/js/error-handler.js', array( 'nf-front-end' ) );
+        wp_enqueue_script('nf-paypal-subscriptions-debug', NF_PayPalSubscriptions::$url . 'assets/js/debug.js', array( 'nf-front-end' ) );
+        wp_enqueue_script('nf-paypal-subscriptions-response', NF_PayPalSubscriptions::$url . 'assets/js/error-handler.js', array( 'nf-front-end' ) );
     }
 
     /**
@@ -279,9 +279,9 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
     private function get_status( $status )
     {
         $lookup = array(
-            'pending' => __( 'Pending', 'ninja-forms-paypal-express' ),
-            'cancel'  => __( 'Cancelled', 'ninja-forms-paypal-express' ),
-            'success' => __( 'Completed', 'ninja-forms-paypal-express' ),
+            'pending' => __( 'Pending', 'ninja-forms-paypal-subscriptions' ),
+            'cancel'  => __( 'Cancelled', 'ninja-forms-paypal-subscriptions' ),
+            'success' => __( 'Completed', 'ninja-forms-paypal-subscriptions' ),
         );
 
         return ( isset( $lookup[ $status ] ) ) ? $lookup[ $status ] : $lookup[ 'pending' ];
@@ -292,7 +292,7 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
         /**
          * Currency Setting Priority
          *
-         * 3. Paypal Express Currency Setting (deprecated)
+         * 3. PayPal Subscriptions Currency Setting (deprecated)
          * 2. Ninja Forms Currency Setting
          * 1. Form Currency Setting (default)
          */
@@ -302,4 +302,4 @@ class NF_PayPalExpress_PaymentGateway extends NF_Abstracts_PaymentGateway
         return $form_currency;
     }
 
-} // END CLASS NF_PayPalExpress_PaymentGateway
+} // END CLASS NF_PayPalSubscriptions_PaymentGateway

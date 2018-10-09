@@ -1,6 +1,6 @@
 <?php
 
-function ninja_forms_paypal_express_activation(){
+function ninja_forms_paypal_subscriptions_activation(){
 	if ( version_compare( NINJA_FORMS_VERSION, '2.7' ) == -1 ) {
 		global $wpdb;
 		if($wpdb->get_var("SHOW COLUMNS FROM ".NINJA_FORMS_SUBS_TABLE_NAME." LIKE 'paypal_status'") != 'paypal_status') {

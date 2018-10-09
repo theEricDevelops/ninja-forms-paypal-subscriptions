@@ -1,45 +1,45 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*
- * Plugin Name: Ninja Forms - PayPal Express
- * Plugin URI: https://ninjaforms.com/extensions/paypal-express/
- * Description: Use PayPal Express to accept payments using your Ninja Forms.
- * Version: 3.0.14
- * Author: The WP Ninjas
- * Author URI: http://ninjaforms.com
- * Text Domain: ninja-forms-paypal-express
+ * Plugin Name: Ninja Forms - PayPal Subscriptions
+ * Plugin URI: https://ninjaforms.com/extensions/paypal-subscriptions/
+ * Description: Use PayPal Subscriptions to accept payments using your Ninja Forms.
+ * Version: 3.0.
+ * Author: Eric Baker
+ * Author URI: http://ericbaker.me
+ * Text Domain: ninja-forms-paypal-subscriptions
  *
- * Copyright 2013 The WP Ninjas.
+ * Copyright 2018 Traffic Light Media, LLC.
  */
 
 if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) || get_option( 'ninja_forms_load_deprecated', FALSE ) ) {
 
-    define("NINJA_FORMS_PAYPAL_EXPRESS_DIR", WP_PLUGIN_DIR."/".basename( dirname( __FILE__ ) ) . '/deprecated' );
-    define("NINJA_FORMS_PAYPAL_EXPRESS_URL", plugins_url()."/".basename( dirname( __FILE__ ) ) . '/deprecated'  );
-    define("NINJA_FORMS_PAYPAL_EXPRESS_VERSION", "3.0.14");
-    define("NINJA_FORMS_PAYPAL_EXPRESS_DEBUG", false);
+    define("NINJA_FORMS_PAYPAL_SUBSCRIPTIONS_DIR", WP_PLUGIN_DIR."/".basename( dirname( __FILE__ ) ) . '/deprecated' );
+    define("NINJA_FORMS_PAYPAL_SUBSCRIPTIONS_URL", plugins_url()."/".basename( dirname( __FILE__ ) ) . '/deprecated'  );
+    define("NINJA_FORMS_PAYPAL_SUBSCRIPTIONS_VERSION", "3.0");
+    define("NINJA_FORMS_PAYPAL_SUBSCRIPTIONS_DEBUG", true);
 
-    include 'deprecated/paypal-express.php';
+    include 'deprecated/paypal-subscriptions.php';
 
 } else {
 
     include plugin_dir_path( __FILE__ ) . 'includes/deprecated.php';
 
     /**
-     * Class NF_PayPalExpress
+     * Class NF_PayPalSubscriptions
      */
-    final class NF_PayPalExpress
+    final class NF_PayPalSubscriptions
     {
-        const VERSION = '3.0.14';
-        const SLUG    = 'paypal-express';
-        const NAME    = 'PayPal Express';
-        const AUTHOR  = 'The WP Ninjas';
-        const PREFIX  = 'NF_PayPalExpress';
+        const VERSION = '3.0';
+        const SLUG    = 'paypal-subscriptions';
+        const NAME    = 'PayPal Subscriptions';
+        const AUTHOR  = 'Eric Baker';
+        const PREFIX  = 'NF_PayPalSubscriptions';
 
         /**
          * Plugin Instance
          *
-         * @var NF_PayPalExpress
+         * @var NF_PayPalSubscriptions
          * @since 3.0
          */
         private static $instance;
@@ -64,7 +64,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
          * API Connection
          *
          * @since 3.0
-         * @var NF_PayPalExpress_Checkout
+         * @var NF_PayPalSubscriptions_Checkout
          */
         private $_api;
 
@@ -77,12 +77,12 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
          * @since 3.0
          * @static
          * @static var array $instance
-         * @return NF_PayPalExpress Highlander Instance
+         * @return NF_PayPalSubscriptions Highlander Instance
          */
         public static function instance()
         {
-            if (!isset(self::$instance) && !(self::$instance instanceof NF_PayPalExpress)) {
-                self::$instance = new NF_PayPalExpress();
+            if (!isset(self::$instance) && !(self::$instance instanceof NF_PayPalSubscriptions)) {
+                self::$instance = new NF_PayPalSubscriptions();
 
                 self::$dir = plugin_dir_path(__FILE__);
 
@@ -104,7 +104,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
 
             add_filter( 'ninja_forms_register_payment_gateways', array( $this, 'register_payment_gateways' ) );
 
-            // We're gonna add a PayPal Express action separate from Collect Payment
+            // We're gonna add a PayPal Subscriptions action separate from Collect Payment
 	        add_filter( 'ninja_forms_register_actions', array( $this, 'register_actions' ) );
             
             add_filter( 'nf_subs_csv_extra_values', array( $this, 'export_transaction_data' ), 10, 3 );
@@ -118,12 +118,12 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
          */
         public function setup_admin()
         {
-            Ninja_Forms()->merge_tags[ 'paypal_express' ] = new NF_PayPalExpress_MergeTags();
+            Ninja_Forms()->merge_tags[ 'paypal_subscriptions' ] = new NF_PayPalSubscriptions_MergeTags();
 
             if( ! is_admin() ) return;
 
-            new NF_PayPalExpress_Admin_Settings();
-            new NF_PayPalExpress_Admin_Metaboxes_Submission();
+            new NF_PayPalSubscriptions_Admin_Settings();
+            new NF_PayPalSubscriptions_Admin_Metaboxes_Submission();
         }
         
         /**
@@ -170,8 +170,8 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
             ?>
             <div class="nf-admin-notice nf-admin-error error">
                 <div class="nf-notice-logo"></div>
-                <p class="nf-notice-title"><?php _e( 'Ninja Forms has detected an outdated TLS Version', 'ninja-forms-paypal-express' ); ?></p>
-                <p class="nf-notice-body"><?php _e( 'Please contact your host and have them update your environment to support TLS 1.2 and HTTP/1.1', 'ninja-forms-paypal-express' ); ?></p>
+                <p class="nf-notice-title"><?php _e( 'Ninja Forms has detected an outdated TLS Version', 'ninja-forms-paypal-subscriptions' ); ?></p>
+                <p class="nf-notice-body"><?php _e( 'Please contact your host and have them update your environment to support TLS 1.2 and HTTP/1.1', 'ninja-forms-paypal-subscriptions' ); ?></p>
             </div>
             <?php
 
@@ -188,25 +188,25 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
          */
         public function register_payment_gateways($payment_gateways)
         {
-            $payment_gateways[ 'paypal-express' ] = new NF_PayPalExpress_PaymentGateway();
+            $payment_gateways[ 'paypal-subscriptions' ] = new NF_PayPalSubscriptions_PaymentGateway();
 
             return $payment_gateways;
         }
 
 	    /**
-	     * Register PayPal Express Action
+	     * Register PayPal Subscriptions Action
 	     *
 	     * @param array $actions
 	     * @return array $actions
 	     */
 	    public function register_actions( $actions )
 	    {
-	    	// create action with PayPal Express as label and name
-		    $paypal_action = new NF_Actions_CollectPayment( __( 'PayPal Express', 'ninja-forms' ),
-			    'paypal-express' );
+	    	// create action with PayPal Subscriptions as label and name
+		    $paypal_action = new NF_Actions_CollectPayment( __( 'PayPal Subscriptions', 'ninja-forms' ),
+			    'paypal-subscriptions' );
 
 		    // add to the NF actions array
-		    $actions[ 'paypal-express' ] = $paypal_action;
+		    $actions[ 'paypal-subscriptions' ] = $paypal_action;
 
 		    return $actions;
 	    }
@@ -214,10 +214,10 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
         /**
          * API
          *
-         * Setup PayPal Express API Connection
+         * Setup PayPal Subscriptions API Connection
          *
          * @param bool $sandbox
-         * @return NF_PayPalExpress_Checkout
+         * @return NF_PayPalSubscriptions_Checkout
          */
         public function api( $sandbox = FALSE )
         {
@@ -234,7 +234,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
                 }
 
                 try {
-                    $this->_api = new NF_PayPalExpress_Checkout( $username, $password, $signature, $sandbox );
+                    $this->_api = new NF_PayPalSubscriptions_Checkout( $username, $password, $signature, $sandbox );
                 } catch (Exception $e) {
                     // TODO: Log Error, $e->getMessage(), for System Status Report
                 }
@@ -256,7 +256,7 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
             $templates[ 'paypal-payment' ] = array(
                 'id'            => 'paypal-payment',
                 'title'         => __( 'PayPal Payment', 'ninja-forms' ),
-                'template-desc' => __( 'Collect a payment using PayPal Express. You can add and remove fields as needed.', 'ninja-forms' ),
+                'template-desc' => __( 'Collect a payment using PayPal Subscriptions. You can add and remove fields as needed.', 'ninja-forms' ),
                 'form'          => self::form_templates( 'paypal-payment.nff' ),
             );
 
@@ -353,9 +353,9 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
             // Loop over our actions to see if PayPal exists.
             foreach( $actions as $action ) {
                 $settings = $action->get_settings();
-                // check for collectpayment or paypal-express types
-                if( in_array( $settings[ 'type' ], array( 'collectpayment', 'paypal-express') )
-                   && 'paypal-express' == $settings[ 'payment_gateways' ] ) {
+                // check for collectpayment or paypal-subscriptions types
+                if( in_array( $settings[ 'type' ], array( 'collectpayment', 'paypal-subscriptions') )
+                   && 'paypal-subscriptions' == $settings[ 'payment_gateways' ] ) {
                     $add_transactions = true;
                 }
             }
@@ -364,8 +364,8 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
             if( ! $add_transactions ) return $csv_array;
             
             // Add our labels.
-            $csv_array[ 0 ][ 0 ][ 'paypal_status' ] = __( 'PayPal Status', 'ninja-forms-paypal-express' );
-            $csv_array[ 0 ][ 0 ][ 'paypal_transaction_id' ] = __( 'PayPal Transaction ID', 'ninja-forms-paypal-express' );
+            $csv_array[ 0 ][ 0 ][ 'paypal_status' ] = __( 'PayPal Status', 'ninja-forms-paypal-subscriptions' );
+            $csv_array[ 0 ][ 0 ][ 'paypal_transaction_id' ] = __( 'PayPal Transaction ID', 'ninja-forms-paypal-subscriptions' );
             // Add our values.
             $i = 0;
             foreach( $subs as $sub ) {
@@ -399,17 +399,17 @@ if( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3', '<' ) ||
      * @since 3.0
      * @return {class} Highlander Instance
      */
-    function NF_PayPalExpress()
+    function NF_PayPalSubscriptions()
     {
-        return NF_PayPalExpress::instance();
+        return NF_PayPalSubscriptions::instance();
     }
 
     // Go ninja, go ninja, go!
-    NF_PayPalExpress();
+    NF_PayPalSubscriptions();
 }
 
-add_filter( 'ninja_forms_upgrade_settings', 'NF_PayPalExpress_Upgrade', 9999 );
-function NF_PayPalExpress_Upgrade( $data ){
+add_filter( 'ninja_forms_upgrade_settings', 'NF_PayPalSubscriptions_Upgrade', 9999 );
+function NF_PayPalSubscriptions_Upgrade( $data ){
 
     // Migrate plugin settings.
     $plugin_settings = get_option( 'ninja_forms_paypal', array(
@@ -445,12 +445,12 @@ function NF_PayPalExpress_Upgrade( $data ){
 
 
     // Convert form settings to action.
-    if( isset( $data[ 'settings' ][ 'paypal_express' ] ) && 1 == $data[ 'settings' ][ 'paypal_express' ] ){
+    if( isset( $data[ 'settings' ][ 'paypal_subscriptions' ] ) && 1 == $data[ 'settings' ][ 'paypal_subscriptions' ] ){
 
         $new_action = array(
-            'type' => 'paypal-express',
-            'label' => __( 'PayPal Express', 'ninja-forms-paypal-express' ),
-            'payment_gateways' => 'paypal-express',
+            'type' => 'paypal-subscriptions',
+            'label' => __( 'PayPal Subscriptions', 'ninja-forms-paypal-subscriptions' ),
+            'payment_gateways' => 'paypal-subscriptions',
             'ppe_description' => '',
         );
 

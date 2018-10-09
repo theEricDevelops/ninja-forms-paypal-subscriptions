@@ -1,4 +1,4 @@
-var nfPayPalExpressErrorHandler = Marionette.Object.extend({
+var nfPayPalSubscriptionsErrorHandler = Marionette.Object.extend({
 
     initialize: function() {
         this.listenTo( nfRadio.channel( 'form' ), 'render:view', this.initPPE );
@@ -26,11 +26,11 @@ var nfPayPalExpressErrorHandler = Marionette.Object.extend({
         var formID = formModel.get( 'id' );
         // Remove any PayPal errors so that submission can be attempted.
         // TODO: Potenitally need to search for additional slugs later. For now, all errors use the same slug.
-        Backbone.Radio.channel( 'form-' + formID ).request( 'remove:error', 'paypal_express' );
+        Backbone.Radio.channel( 'form-' + formID ).request( 'remove:error', 'paypal_subscriptions' );
     }
 
 });
 
 jQuery( document ).ready( function( $ ) {
-    new nfPayPalExpressErrorHandler();
+    new nfPayPalSubscriptionsErrorHandler();
 });

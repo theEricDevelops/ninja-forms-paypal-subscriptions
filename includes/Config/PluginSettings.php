@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
-return apply_filters( 'nf_paypal_express_plugin_settings', array(
+return apply_filters( 'nf_paypal_subscriptions_plugin_settings', array(
 
     /*
     |--------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
-final class NF_PayPalExpress_Admin_Metaboxes_Submission extends NF_Abstracts_SubmissionMetabox
+final class NF_PayPalSubscriptions_Admin_Metaboxes_Submission extends NF_Abstracts_SubmissionMetabox
 {
     public function __construct()
     {
@@ -25,11 +25,11 @@ final class NF_PayPalExpress_Admin_Metaboxes_Submission extends NF_Abstracts_Sub
         if( ! $transaction_id ) $transaction_id = $this->sub->get_extra_value( '_paypal_transaction_id' );
 
         $data = array(
-            __( 'Status', 'ninja-forms-paypal-express' ) => $status,
-            __( 'Total', 'ninja-forms-paypal-express' )  => $total,
-            __( 'Transaction ID', 'ninja-forms-paypal-express' ) => $transaction_id
+            __( 'Status', 'ninja-forms-paypal-subscriptions' ) => $status,
+            __( 'Total', 'ninja-forms-paypal-subscriptions' )  => $total,
+            __( 'Transaction ID', 'ninja-forms-paypal-subscriptions' ) => $transaction_id
         );
 
-        NF_PayPalExpress::template( 'admin-metaboxes-submission.html.php', $data );
+        NF_PayPalSubscriptions::template( 'admin-metaboxes-submission.html.php', $data );
     }
 }

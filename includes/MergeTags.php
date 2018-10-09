@@ -1,24 +1,24 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Class NF_PayPalExpress_MergeTags
+ * Class NF_PayPalSubscriptions_MergeTags
  */
-final class NF_PayPalExpress_MergeTags extends NF_Abstracts_MergeTags
+final class NF_PayPalSubscriptions_MergeTags extends NF_Abstracts_MergeTags
 {
-    protected $id = 'paypal_express';
+    protected $id = 'paypal_subscriptions';
 
     private $transaction_id = '';
 
     public function __construct()
     {
         parent::__construct();
-        $this->title = __( 'PayPal Express', 'ninja-forms' );
+        $this->title = __( 'PayPal Subscriptions', 'ninja-forms' );
 
         $this->merge_tags = array(
             'transaction_id' => array(
                 'id' => 'transaction_id',
-                'tag' => '{paypal_express:transaction_id}',
-                'label' => __( 'Transaction ID', 'ninja-forms-paypal-express' ),
+                'tag' => '{paypal_subscriptions:transaction_id}',
+                'label' => __( 'Transaction ID', 'ninja-forms-paypal-subscriptions' ),
                 'callback' => 'get_transaction_id'
             ),
         );
@@ -34,4 +34,4 @@ final class NF_PayPalExpress_MergeTags extends NF_Abstracts_MergeTags
         return $this->transaction_id;
     }
 
-} // END CLASS NF_PayPalExpress_MergeTags
+} // END CLASS NF_PayPalSubscriptions_MergeTags

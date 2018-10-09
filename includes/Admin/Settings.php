@@ -1,9 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Class NF_PayPalExpress_Admin_Settings
+ * Class NF_PayPalSubscriptions_Admin_Settings
  */
-final class NF_PayPalExpress_Admin_Settings
+final class NF_PayPalSubscriptions_Admin_Settings
 {
     public function __construct()
     {
@@ -13,15 +13,15 @@ final class NF_PayPalExpress_Admin_Settings
 
     public function plugin_settings( $settings )
     {
-        $settings[ 'paypal_express' ] = NF_PayPalExpress()->config( 'PluginSettings' );
+        $settings[ 'paypal_subscriptions' ] = NF_PayPalSubscriptions()->config( 'PluginSettings' );
 
         return $settings;
     }
 
     public function plugin_settings_groups( $groups )
     {
-        $groups = array_merge( $groups, NF_PayPalExpress()->config( 'PluginSettingsGroups' ) );
+        $groups = array_merge( $groups, NF_PayPalSubscriptions()->config( 'PluginSettingsGroups' ) );
         return $groups;
     }
 
-} // End Class NF_PayPalExpress_Admin_Settings
+} // End Class NF_PayPalSubscriptions_Admin_Settings
